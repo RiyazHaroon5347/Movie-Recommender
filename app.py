@@ -81,7 +81,21 @@ def fetch_poster(movie_title, api_key):
 
 # ---------- Streamlit UI ----------
 add_bg_from_url()
-st.markdown("<h1 style='text-align: center; color: white;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
+st.markdown("""
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+    .main-title {
+        font-family: 'Cinzel', serif;
+        font-size: 60px;
+        text-align: center;
+        color: #ff4b4b;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px black;
+        margin-top: 20px;
+    }
+    </style>
+    <h1 class="main-title">🎬 Movie Recommender 🍿</h1>
+""", unsafe_allow_html=True)
 
 
 
