@@ -120,11 +120,19 @@ if st.button("Recommend"):
     recommendations = recommend(selected_movie)
 
     if recommendations:
-        st.subheader("🎯 Recommended Movies:")
-
-        # Add custom style for movie titles
         st.markdown("""
         <style>
+        .recommend-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px 20px;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
         .movie-title {
             font-size: 20px;
             font-weight: 600;
@@ -133,7 +141,11 @@ if st.button("Recommend"):
             margin-top: 10px;
         }
         </style>
+
+        <div class="recommend-box">
         """, unsafe_allow_html=True)
+
+        st.subheader("🎯 Recommended Movies:")
 
         # Group posters into rows of 3
         for i in range(0, len(recommendations), 3):
@@ -146,6 +158,10 @@ if st.button("Recommend"):
                     with cols[j]:
                         st.image(poster_url, use_container_width=True)
                         st.markdown(f"<div class='movie-title'>🎬 {movie}</div>", unsafe_allow_html=True)
+
+        # Close the recommend-box div
+        st.markdown("</div>", unsafe_allow_html=True)
+
     else:
         st.warning("No recommendations found. Try another movie.")
 
