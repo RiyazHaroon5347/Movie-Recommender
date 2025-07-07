@@ -83,10 +83,10 @@ def fetch_poster(movie_title, api_key):
 add_bg_from_url()
 
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 <style>
 .title-container {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 50px;
     text-align: center;
     color: #FFD700;
@@ -97,8 +97,8 @@ st.markdown("""
     background: rgba(0, 0, 0, 0.3);           /* semi-transparent black */
     border: 2px solid rgba(255, 255, 255, 0.2); /* light transparent border */
     border-radius: 20px;
-    backdrop-filter: blur(3px);               /* <--- THE BLUR EFFECT */
-    -webkit-backdrop-filter: blur(3px);       /* for Safari */
+    backdrop-filter: blur(3px);               /* blur effect */
+    -webkit-backdrop-filter: blur(3px);       /* Safari support */
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* golden glow */
 }
 </style>
@@ -107,6 +107,7 @@ st.markdown("""
     🎬 Movie Recommender 🍿
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
