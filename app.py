@@ -81,7 +81,7 @@ def fetch_poster(movie_title, api_key):
 
 # ---------- Streamlit UI ----------
 add_bg_from_url()
-st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: white;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
 
 
 
