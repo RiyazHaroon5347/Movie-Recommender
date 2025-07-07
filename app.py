@@ -71,17 +71,23 @@ TMDB_API_KEY = "9b12d347b6ae32fa5fe10efc7d58c7a3"
 
 if st.button("Recommend"):
     recommendations = recommend(selected_movie)
-    
+
     if recommendations:
         st.subheader("🎯 Recommended Movies:")
-        
-        cols = st.columns(3)  # or 3 for wider layout
 
-        for idx, movie in enumerate(recommendations):
-            with cols[idx % 3]:
-                poster_url = fetch_poster(movie, TMDB_API_KEY)
-                st.markdown(f"**🎬 {movie}**", unsafe_allow_html=True)
-                st.image(poster_url, use_container_width=True)
+        # Group posters into rows of 3
+        for i in range(0, len(recommendations), 3):
+            cols = st.columns(3)
+
+            for j in range(3):
+                if i + j < len(recommendations):
+                    movie = recommendations[i + j]
+                    poster_url = fetch_poster(movie, TMDB_API_KEY)
+                    with cols[j]:
+                        st.image(poster_url, use_container_width=True)
+                        st.markdown(f"**🎬 {movie}**", unsafe_allow_html=True)
     else:
         st.warning("No recommendations found. Try another movie.")
+
+
 
