@@ -63,6 +63,20 @@ def fetch_poster(movie_title, api_key):
 
 # ---------- Streamlit UI ----------
 st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
+def add_bg_from_url():
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background-image: url("https://wallpaperaccess.com/full/1567665.jpg");
+             background-size: cover;
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
+
+add_bg_from_url()
 
 
 movie_list = new_df['title'].sort_values().tolist()
