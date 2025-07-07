@@ -85,30 +85,25 @@ st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
 
 <style>
-.transparent-title {
+.title-container {
     font-family: 'Cinzel', serif;
-    font-size: 60px;
+    font-size: 50px;
     text-align: center;
-    color: transparent;
+    color: #FFD700;
     padding: 30px;
     margin-top: 20px;
     margin-bottom: 30px;
 
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-
-    /* Text outline using multiple shadows */
-    text-shadow:
-        1px 1px 2px #FFD700,
-        -1px -1px 2px #FFD700,
-        2px 2px 4px black;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 </style>
 
-<div class="transparent-title">
+<div class="title-container">
     🎬 Movie Recommender 🍿
 </div>
 """, unsafe_allow_html=True)
