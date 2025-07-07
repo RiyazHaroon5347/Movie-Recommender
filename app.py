@@ -87,7 +87,7 @@ st.markdown("""
 <style>
 .title-container {
     font-family: 'Montserrat', sans-serif;
-    font-size: 45px;
+    font-size: 40px;
     text-align: center;
     color: #FFD700;
     padding: 30px;
