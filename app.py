@@ -84,5 +84,4 @@ if st.button("Recommend"):
                 st.image(poster_url, use_column_width=True)
     else:
         st.warning("No recommendations found. Try another movie.")
-    else:
-        st.warning("No recommendations found. Try another movie.")
+   
