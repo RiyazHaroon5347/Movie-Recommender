@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import ast
+import requests
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -48,17 +49,33 @@ def recommend(movie):
     movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
     return [new_df.iloc[i[0]].title for i in movie_list]
 
+def fetch_poster(movie_title, api_key):
+    url = f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={movie_title}"
+    response = requests.get(url)
+    data = response.json()
+    
+    if data['results']:
+        poster_path = data['results'][0].get('poster_path')
+        if poster_path:
+            return f"https://image.tmdb.org/t/p/w500{poster_path}"
+    
+    return "https://via.placeholder.com/300x450?text=No+Image"
+
 # ---------- Streamlit UI ----------
 st.title("🎬 Movie Recommendation System")
 
 movie_list = new_df['title'].sort_values().tolist()
 selected_movie = st.selectbox("Choose a movie", movie_list)
 
+TMDB_API_KEY = "9b12d347b6ae32fa5fe10efc7d58c7a3"
+
 if st.button("Recommend"):
     recommendations = recommend(selected_movie)
     if recommendations:
         st.subheader("Recommended Movies:")
-        for i in recommendations:
-            st.write("✅", i)
+        for movie in recommendations:
+            poster_url = fetch_poster(movie, TMDB_API_KEY)
+            st.markdown(f"### 🎬 {movie}")
+            st.image(poster_url, width=200)
     else:
         st.warning("No recommendations found. Try another movie.")
