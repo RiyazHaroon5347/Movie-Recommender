@@ -46,7 +46,7 @@ def recommend(movie):
         return []
     index = new_df[new_df['title'].str.lower() == movie].index[0]
     distances = similarity[index]
-    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
+    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:7]
     return [new_df.iloc[i[0]].title for i in movie_list]
 
 def fetch_poster(movie_title, api_key):
