@@ -10,7 +10,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://png.pngtree.com/thumb_back/fh260/background/20230615/pngtree-wall-of-movie-posters-on-display-image_2949343.jpg");
+             background-image: url("https://i.etsystatic.com/23423883/r/il/3866e3/4528785581/il_fullxfull.4528785581_o0dr.jpg");
              background-attachment: fixed;
              background-size: cover;
              background-position: center;
