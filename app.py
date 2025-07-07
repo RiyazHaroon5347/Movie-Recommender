@@ -122,6 +122,19 @@ if st.button("Recommend"):
     if recommendations:
         st.subheader("🎯 Recommended Movies:")
 
+        # Add custom style for movie titles
+        st.markdown("""
+        <style>
+        .movie-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            color: #FFD700;
+            margin-top: 10px;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
         # Group posters into rows of 3
         for i in range(0, len(recommendations), 3):
             cols = st.columns(3)
@@ -132,7 +145,7 @@ if st.button("Recommend"):
                     poster_url = fetch_poster(movie, TMDB_API_KEY)
                     with cols[j]:
                         st.image(poster_url, use_container_width=True)
-                        st.markdown(f"**🎬 {movie}**", unsafe_allow_html=True)
+                        st.markdown(f"<div class='movie-title'>🎬 {movie}</div>", unsafe_allow_html=True)
     else:
         st.warning("No recommendations found. Try another movie.")
 
