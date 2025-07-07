@@ -82,20 +82,30 @@ def fetch_poster(movie_title, api_key):
 # ---------- Streamlit UI ----------
 add_bg_from_url()
 
-
 st.markdown("""
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <style>
-    .movie-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 60px;
-        text-align: center;
-        color: #FFD700; /* gold */
-        text-shadow: 2px 2px 5px black;
-        margin-top: 20px;
-    }
-    </style>
-    <h1 class="movie-title">🎬 Movie Recommender 🍿</h1>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+<style>
+.title-container {
+    font-family: 'Cinzel', serif;
+    font-size: 50px;
+    text-align: center;
+    color: #FFD700;
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    background: rgba(0, 0, 0, 0.3);           /* semi-transparent black */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* light transparent border */
+    border-radius: 20px;
+    backdrop-filter: blur(3px);               /* <--- THE BLUR EFFECT */
+    -webkit-backdrop-filter: blur(3px);       /* for Safari */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* golden glow */
+}
+</style>
+
+<div class="title-container">
+    🎬 Movie Recommender 🍿
+</div>
 """, unsafe_allow_html=True)
 
 
