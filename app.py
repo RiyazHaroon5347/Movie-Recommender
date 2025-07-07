@@ -81,21 +81,19 @@ def fetch_poster(movie_title, api_key):
 
 # ---------- Streamlit UI ----------
 add_bg_from_url()
+
+
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
 
 <style>
-.title-top-left {
-    position: absolute;
-    top: 20px;
-    left: 30px;
-    z-index: 9999;
-
+.title-box {
     font-family: 'Cinzel', serif;
-    font-size: 48px;
+    font-size: 42px;
     color: transparent;
     padding: 15px 25px;
-    
+    width: fit-content;
+
     background: rgba(0, 0, 0, 0.25);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
@@ -108,11 +106,14 @@ st.markdown("""
         2px 2px 5px black;
 }
 </style>
-
-<div class="title-top-left">
-    🎬 Movie Recommender
-</div>
 """, unsafe_allow_html=True)
+
+# Simulate left-align using Streamlit columns
+col1, col2 = st.columns([1, 4])  # col1 is left, col2 is right
+
+with col1:
+    st.markdown('<div class="title-box">🎬 Movie Recommender</div>', unsafe_allow_html=True)
+
 
 
 
