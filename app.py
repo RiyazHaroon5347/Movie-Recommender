@@ -5,6 +5,24 @@ import requests
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+def add_bg_from_url():
+    st.markdown(
+         f"""
+         <style>
+         .stApp {{
+             background-image: url("https://wallpaperaccess.com/full/1567665.jpg");
+             background-attachment: fixed;
+             background-size: cover;
+             background-position: center;
+             background-color: rgba(0, 0, 0, 0.6);
+             background-blend-mode: darken;
+         }}
+         </style>
+         """,
+         unsafe_allow_html=True
+     )
+
+
 @st.cache_data
 def load_data():
     movies = pd.read_csv('tmdb_5000_movies.csv')
@@ -62,19 +80,10 @@ def fetch_poster(movie_title, api_key):
     return "https://via.placeholder.com/300x450?text=No+Image"
 
 # ---------- Streamlit UI ----------
-st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
-def add_bg_from_url():
-    st.markdown(
-         <style>
-         .stApp {{
-             background-image: url("https://wallpaperaccess.com/full/1567665.jpg");
-             background-size: cover;
-         }}
-         </style>
-         unsafe_allow_html=True
-     )
-
 add_bg_from_url()
+st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
+
+
 
 
 movie_list = new_df['title'].sort_values().tolist()
