@@ -89,7 +89,7 @@ st.markdown("""
     font-family: 'Montserrat', sans-serif;
     font-size: 40px;
     text-align: center;
-    color: #FFD700;
+    color: white;
     padding: 30px;
     margin-top: 20px;
     margin-bottom: 30px;
