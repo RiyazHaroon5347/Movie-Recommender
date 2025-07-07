@@ -65,14 +65,12 @@ def fetch_poster(movie_title, api_key):
 st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
 def add_bg_from_url():
     st.markdown(
-         f"""
          <style>
          .stApp {{
              background-image: url("https://wallpaperaccess.com/full/1567665.jpg");
              background-size: cover;
          }}
-         </style>
-         """,
+         </style>,
          unsafe_allow_html=True
      )
 
