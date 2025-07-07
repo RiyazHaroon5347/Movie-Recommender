@@ -26,34 +26,6 @@ def add_bg_from_url():
 @st.cache_data
 
 
-'''def load_data():
-    movies = pd.read_csv('tmdb_5000_movies.csv')
-    credits = pd.read_csv('tmdb_5000_credits.csv')
-    movies = movies.merge(credits, on='title')
-    movies = movies[['movie_id', 'title', 'overview', 'genres', 'keywords', 'cast', 'crew']]
-    movies.dropna(inplace=True)
-
-    def convert(obj):
-        return [i['name'] for i in ast.literal_eval(obj)]
-
-    def get_top_cast(obj):
-        return [i['name'] for i in ast.literal_eval(obj)[:3]]
-
-    def get_director(obj):
-        return [i['name'] for i in ast.literal_eval(obj) if i['job'] == 'Director'][:1]
-
-    movies['genres'] = movies['genres'].apply(convert)
-    movies['keywords'] = movies['keywords'].apply(convert)
-    movies['cast'] = movies['cast'].apply(get_top_cast)
-    movies['crew'] = movies['crew'].apply(get_director)
-    movies['overview'] = movies['overview'].apply(lambda x: x.split())
-    movies['tags'] = movies['overview'] + movies['genres'] + movies['keywords'] + movies['cast'] + movies['crew']
-
-    new_df = movies[['movie_id', 'title', 'tags']]
-    new_df['tags'] = new_df['tags'].apply(lambda x: " ".join(x)).str.lower()
-
-    return new_df'''
-
 def load_data():
     movies = pd.read_csv('tmdb_5000_movies.csv')
     credits = pd.read_csv('tmdb_5000_credits.csv')
