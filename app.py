@@ -62,7 +62,8 @@ def fetch_poster(movie_title, api_key):
     return "https://via.placeholder.com/300x450?text=No+Image"
 
 # ---------- Streamlit UI ----------
-st.title("🎬 Movie Recommendation System")
+st.markdown("<h1 style='text-align: center; color: orange;'>🎬 Movie Recommender 🍿</h1>", unsafe_allow_html=True)
+
 
 movie_list = new_df['title'].sort_values().tolist()
 selected_movie = st.selectbox("Choose a movie", movie_list)
