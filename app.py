@@ -75,13 +75,13 @@ if st.button("Recommend"):
     if recommendations:
         st.subheader("🎯 Recommended Movies:")
         
-        cols = st.columns(3)  # You can change 5 to 3 if posters are too squeezed
+        cols = st.columns(5)  # or 3 for wider layout
 
         for idx, movie in enumerate(recommendations):
-            with cols[idx % 3]:  # 5 is number of columns
+            with cols[idx % 5]:
                 poster_url = fetch_poster(movie, TMDB_API_KEY)
                 st.markdown(f"**🎬 {movie}**", unsafe_allow_html=True)
-                st.image(poster_url, use_column_width=True)
+                st.image(poster_url, use_container_width=True)
     else:
         st.warning("No recommendations found. Try another movie.")
-   
+
