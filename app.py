@@ -75,10 +75,10 @@ if st.button("Recommend"):
     if recommendations:
         st.subheader("🎯 Recommended Movies:")
         
-        cols = st.columns(5)  # or 3 for wider layout
+        cols = st.columns(3)  # or 3 for wider layout
 
         for idx, movie in enumerate(recommendations):
-            with cols[idx % 5]:
+            with cols[idx % 3]:
                 poster_url = fetch_poster(movie, TMDB_API_KEY)
                 st.markdown(f"**🎬 {movie}**", unsafe_allow_html=True)
                 st.image(poster_url, use_container_width=True)
