@@ -70,7 +70,7 @@ def add_bg_from_url():
              background-image: url("https://wallpaperaccess.com/full/1567665.jpg");
              background-size: cover;
          }}
-         </style>,
+         </style>
          unsafe_allow_html=True
      )
 
