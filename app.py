@@ -110,7 +110,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-left_col, right_col = st.columns([3, 1]) 
+left_col, right_col = st.columns([3, 1.5]) 
 with left_col:
     st.header("🔍 Search and Recommendations")
     
@@ -165,20 +165,18 @@ with right_col:
     
     if response.status_code == 200:
         data = response.json().get('results', [])[:10]
-    
+
+        col1, col2 = right_col.columns(2)
+        
         for movie in data:
             title = movie.get('title', 'No Title')
             rating = movie.get('vote_average', 'N/A')
             poster_path = movie.get('poster_path')
     
-            st.subheader(title)
-            st.write(f"⭐ Rating: {rating}")
-    
-            if poster_path:
-                poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
-                st.image(poster_url, width=300)
-    
-            st.markdown("---")
-    else:
-        st.error("❌ Failed to fetch trending movies.")
+            col = col1 if i % 2 == 0 else col2
 
+            with col:
+                st.image(poster_url, use_column_width=True)
+                st.caption(title)
+    else:
+        right_col.error("❌ Could not fetch trending movies.")
