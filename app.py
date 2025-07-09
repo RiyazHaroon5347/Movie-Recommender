@@ -110,8 +110,22 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-import streamlit as st
-import requests
+movie_name = st.text_input("Search for a movie you like:", "")
+
+if movie_name:
+    recommendations = recommend(movie_name)
+    if recommendations:
+        st.subheader("🔍 Recommendations for you:")
+
+        cols = st.columns(5)
+        for i, movie in enumerate(recommendations):
+            with cols[i]:
+                poster_url = fetch_poster(movie)
+                if poster_url:
+                    st.image(poster_url, use_container_width=True)
+                st.caption(movie)
+    else:
+        st.error("Movie not found or no recommendations available.")
 
 API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
