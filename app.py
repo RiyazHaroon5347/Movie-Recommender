@@ -110,7 +110,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-left_col, right_col = st.columns([3, 1.5]) 
+left_col, right_col = st.columns([2, 1]) 
 with left_col:
     st.header("🔍 Search and Recommendations")
     
