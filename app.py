@@ -84,6 +84,7 @@ def fetch_poster(movie_title, api_key):
 # ---------- Streamlit UI ----------
 add_bg_from_url()
 
+left_col, right_col = st.columns([3, 1]) 
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -110,74 +111,76 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+with left_col:
+    st.header("🔍 Search and Recommendations")
+    
+    movie_list = new_df['title'].sort_values().tolist()
+    selected_movie = st.selectbox("Choose a movie", movie_list)
+    
+    
+    TMDB_API_KEY = "9b12d347b6ae32fa5fe10efc7d58c7a3"
+    
+    
+    if st.button("Recommend"):
+        recommendations = recommend(selected_movie)
+    
+        if recommendations:
+            st.subheader("🎯 Recommended Movies:")
+    
+            # Add custom style for movie titles
+            st.markdown("""
+            <style>
+            .movie-title {
+                font-size: 20px;
+                font-weight: 600;
+                text-align: center;
+                color: #FFD700;
+                margin-top: 10px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+    
+            # Group posters into rows of 3
+            for i in range(0, len(recommendations), 3):
+                cols = st.columns(3)
+    
+                for j in range(3):
+                    if i + j < len(recommendations):
+                        movie = recommendations[i + j]
+                        poster_url = fetch_poster(movie, TMDB_API_KEY)
+                        with cols[j]:
+                            st.image(poster_url, use_container_width=True)
+                            st.markdown(f"<div class='movie-title'>🎬 {movie}</div>", unsafe_allow_html=True)
+        else:
+            st.warning("No recommendations found. Try another movie.")
 
-movie_list = new_df['title'].sort_values().tolist()
-selected_movie = st.selectbox("Choose a movie", movie_list)
 
-
-TMDB_API_KEY = "9b12d347b6ae32fa5fe10efc7d58c7a3"
-
-
-if st.button("Recommend"):
-    recommendations = recommend(selected_movie)
-
-    if recommendations:
-        st.subheader("🎯 Recommended Movies:")
-
-        # Add custom style for movie titles
-        st.markdown("""
-        <style>
-        .movie-title {
-            font-size: 20px;
-            font-weight: 600;
-            text-align: center;
-            color: #FFD700;
-            margin-top: 10px;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-        # Group posters into rows of 3
-        for i in range(0, len(recommendations), 3):
-            cols = st.columns(3)
-
-            for j in range(3):
-                if i + j < len(recommendations):
-                    movie = recommendations[i + j]
-                    poster_url = fetch_poster(movie, TMDB_API_KEY)
-                    with cols[j]:
-                        st.image(poster_url, use_container_width=True)
-                        st.markdown(f"<div class='movie-title'>🎬 {movie}</div>", unsafe_allow_html=True)
+with right_col:
+    st.header("🔥 Top Trending Movies")
+    
+    api_key = '9b12d347b6ae32fa5fe10efc7d58c7a3'
+    url = f'https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}'
+    
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json().get('results', [])[:10]
+    
+        for movie in data:
+            title = movie.get('title', 'No Title')
+            overview = movie.get('overview', 'No Overview Available')
+            rating = movie.get('vote_average', 'N/A')
+            poster_path = movie.get('poster_path')
+    
+            st.subheader(title)
+            st.write(f"⭐ Rating: {rating}")
+            st.write(overview)
+    
+            if poster_path:
+                poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
+                st.image(poster_url, width=300)
+    
+            st.markdown("---")
     else:
-        st.warning("No recommendations found. Try another movie.")
-
-
-
-st.header("🔥 Top Trending Movies (Live from TMDB)")
-
-api_key = '9b12d347b6ae32fa5fe10efc7d58c7a3'
-url = f'https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}'
-
-response = requests.get(url)
-
-if response.status_code == 200:
-    data = response.json().get('results', [])[:10]
-
-    for movie in data:
-        title = movie.get('title', 'No Title')
-        overview = movie.get('overview', 'No Overview Available')
-        rating = movie.get('vote_average', 'N/A')
-        poster_path = movie.get('poster_path')
-
-        st.subheader(title)
-        st.write(f"⭐ Rating: {rating}")
-        st.write(overview)
-
-        if poster_path:
-            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
-            st.image(poster_url, width=300)
-
-        st.markdown("---")
-else:
-    st.error("❌ Failed to fetch trending movies.")
+        st.error("❌ Failed to fetch trending movies.")
 
