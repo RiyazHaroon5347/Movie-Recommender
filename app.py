@@ -168,13 +168,11 @@ with right_col:
     
         for movie in data:
             title = movie.get('title', 'No Title')
-            overview = movie.get('overview', 'No Overview Available')
             rating = movie.get('vote_average', 'N/A')
             poster_path = movie.get('poster_path')
     
             st.subheader(title)
             st.write(f"⭐ Rating: {rating}")
-            st.write(overview)
     
             if poster_path:
                 poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
