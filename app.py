@@ -84,7 +84,6 @@ def fetch_poster(movie_title, api_key):
 # ---------- Streamlit UI ----------
 add_bg_from_url()
 
-left_col, right_col = st.columns([3, 1]) 
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -110,7 +109,7 @@ st.markdown("""
     🎬 Movie Recommender 🍿
 </div>
 """, unsafe_allow_html=True)
-
+left_col, right_col = st.columns([3, 1]) 
 with left_col:
     st.header("🔍 Search and Recommendations")
     
