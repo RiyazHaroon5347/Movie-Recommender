@@ -122,9 +122,6 @@ if st.button("Recommend"):
     else:
         st.warning("No recommendations found. Try another movie.")
 
-    else:
-        st.error("Movie not found or no recommendations available.")
-
 API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
 def fetch_trending_movies():
