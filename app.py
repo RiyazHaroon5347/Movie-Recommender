@@ -157,25 +157,18 @@ with left_col:
 
 with right_col:
     st.header("🔥 Top Trending Movies")
-    
-    api_key = '9b12d347b6ae32fa5fe10efc7d58c7a3'
-    url = f'https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}'
-    
-    response = requests.get(url)
 
-   def fetch_trending_movies():
+    def fetch_trending_movies():
         url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
         response = requests.get(url)
         if response.status_code == 200:
             return response.json().get('results', [])
         return []
-    
+
     trending = fetch_trending_movies()
-    
-    st.subheader("Trending Movies")
-    
+
     col1, col2 = st.columns(2)
-    
+
     for i, movie in enumerate(trending):
         title = movie.get('title', 'No Title')
         poster_path = movie.get('poster_path')
