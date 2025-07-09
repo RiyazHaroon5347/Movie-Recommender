@@ -168,7 +168,7 @@ with right_col:
 
         col1, col2 = st.columns(2)
         
-        for i,movie in data:
+        for i,movie in enumerate(trending):
             title = movie.get('title', 'No Title')
             poster_path = movie.get('poster_path')
             
