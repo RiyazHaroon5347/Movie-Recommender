@@ -173,10 +173,10 @@ with right_col:
             rating = movie.get('vote_average', 'N/A')
             poster_path = movie.get('poster_path')
     
-             if i % 2 == 0:
-                    with col1:
-                        st.image(poster_url, use_column_width=True)
-                        st.caption(title)
+            if i % 2 == 0:
+                with col1:
+                    st.image(poster_url, use_column_width=True)
+                    st.caption(title)
             else:
                 with col2:
                     st.image(poster_url, use_column_width=True)
