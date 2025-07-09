@@ -110,71 +110,54 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-left_col, right_col = st.columns([2, 1]) 
-with left_col:
-    st.header("🔍 Search and Recommendations")
-    
-    movie_list = new_df['title'].sort_values().tolist()
-    selected_movie = st.selectbox("Choose a movie", movie_list)
-    
-    
-    TMDB_API_KEY = "9b12d347b6ae32fa5fe10efc7d58c7a3"
-    
-    
-    if st.button("Recommend"):
-        recommendations = recommend(selected_movie)
-    
-        if recommendations:
-            st.subheader("🎯 Recommended Movies:")
-    
-            # Add custom style for movie titles
-            st.markdown("""
-            <style>
-            .movie-title {
-                font-size: 20px;
-                font-weight: 600;
-                text-align: center;
-                color: #FFD700;
-                margin-top: 10px;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-    
-            # Group posters into rows of 3
-            for i in range(0, len(recommendations), 3):
-                cols = st.columns(3)
-    
-                for j in range(3):
-                    if i + j < len(recommendations):
-                        movie = recommendations[i + j]
-                        poster_url = fetch_poster(movie, TMDB_API_KEY)
-                        with cols[j]:
-                            st.image(poster_url, use_container_width=True)
-                            st.markdown(f"<div class='movie-title'>🎬 {movie}</div>", unsafe_allow_html=True)
-        else:
-            st.warning("No recommendations found. Try another movie.")
+import streamlit as st
+import requests
 
+API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
-with right_col:
-    st.header("🔥 Top Trending Movies")
-    API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
-    def fetch_trending_movies():
-        url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
-        response = requests.get(url)
-        if response.status_code == 200:
-            return response.json().get('results', [])
-        return []
+def fetch_trending_movies():
+    url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json().get('results', [])
+    return []
+
+# Initialize session state
+if 'show_trending' not in st.session_state:
+    st.session_state.show_trending = False
+
+# Main page layout
+st.title("🎬 Movie Recommender")
+
+if not st.session_state.show_trending:
+    # Home Page
+    st.write("Welcome to the Movie Recommendation System!")
+    st.write("Click the button below to view the latest trending movies.")
+
+    if st.button("🔥 Show Trending Movies"):
+        st.session_state.show_trending = True
+
+else:
+    # Trending Movies Page
+    st.header("🔥 Top Trending Movies This Week")
 
     trending = fetch_trending_movies()
 
-    col1, col2 = st.columns(2)
+    if trending:
+        col1, col2 = st.columns(2)
 
-    for i, movie in enumerate(trending):
-        title = movie.get('title', 'No Title')
-        poster_path = movie.get('poster_path')
-        if poster_path:
-            full_path = f"https://image.tmdb.org/t/p/w500{poster_path}"
-            col = col1 if i % 2 == 0 else col2
-            with col:
-                st.image(full_path, use_container_width=True)
-                st.caption(title)
+        for i, movie in enumerate(trending):
+            title = movie.get('title', 'No Title')
+            poster_path = movie.get('poster_path')
+            if poster_path:
+                full_path = f"https://image.tmdb.org/t/p/w500{poster_path}"
+                col = col1 if i % 2 == 0 else col2
+                with col:
+                    st.image(full_path, use_container_width=True)
+                    st.caption(title)
+    else:
+        st.error("Failed to load trending movies. Please try again later.")
+
+    if st.button("⬅️ Back to Home"):
+        st.session_state.show_trending = False
+
