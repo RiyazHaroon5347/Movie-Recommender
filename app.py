@@ -163,33 +163,25 @@ with right_col:
     
     response = requests.get(url)
 
-    def fetch_trending_movies():
-        url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={api_key}"
+   def fetch_trending_movies():
+        url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
         response = requests.get(url)
         if response.status_code == 200:
-            data = response.json()
-            return data.get('results', [])
-        else:
-            return []
-
+            return response.json().get('results', [])
+        return []
+    
     trending = fetch_trending_movies()
     
-    if response.status_code == 200:
-        data = response.json().get('results', [])[:10]
-
-        col1, col2 = st.columns(2)
-        
-        for i,movie in enumerate(trending):
-            title = movie.get('title', 'No Title')
-            poster_path = movie.get('poster_path')
-            
-            if poster_path:
-                poster_url = f"https://image.tmdb.org/t/p/w200{poster_path}"
-                
-                col = col1 if i % 2 == 0 else col2
-                
-                with col:
-                    st.image(poster_url, use_column_width=True)
-                    st.caption(title)
-    else:
-        right_col.error("❌ Could not fetch trending movies.")
+    st.subheader("Trending Movies")
+    
+    col1, col2 = st.columns(2)
+    
+    for i, movie in enumerate(trending):
+        title = movie.get('title', 'No Title')
+        poster_path = movie.get('poster_path')
+        if poster_path:
+            full_path = f"https://image.tmdb.org/t/p/w500{poster_path}"
+            col = col1 if i % 2 == 0 else col2
+            with col:
+                st.image(full_path, use_container_width=True)
+                st.caption(title)
