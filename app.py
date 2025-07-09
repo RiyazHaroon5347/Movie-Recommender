@@ -110,20 +110,18 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-movie_name = st.text_input("Search for a movie you like:", "")
+movie_list = new_df['title'].sort_values().tolist()
+selected_movie = st.selectbox("Choose a movie", movie_list)
 
-if movie_name:
-    recommendations = recommend(movie_name)
+if st.button("Recommend"):
+    recommendations = recommend(selected_movie)
     if recommendations:
-        st.subheader("🔍 Recommendations for you:")
+        st.subheader("Recommended Movies:")
+        for i in recommendations:
+            st.write("✅", i)
+    else:
+        st.warning("No recommendations found. Try another movie.")
 
-        cols = st.columns(5)
-        for i, movie in enumerate(recommendations):
-            with cols[i]:
-                poster_url = fetch_poster(movie)
-                if poster_url:
-                    st.image(poster_url, use_container_width=True)
-                st.caption(movie)
     else:
         st.error("Movie not found or no recommendations available.")
 
