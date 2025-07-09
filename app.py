@@ -162,6 +162,17 @@ with right_col:
     url = f'https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}'
     
     response = requests.get(url)
+
+    def fetch_trending_movies():
+        url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={api_key}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            return data.get('results', [])
+        else:
+            return []
+
+    trending = fetch_trending_movies()
     
     if response.status_code == 200:
         data = response.json().get('results', [])[:10]
