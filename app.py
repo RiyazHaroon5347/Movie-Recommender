@@ -153,3 +153,31 @@ if st.button("Recommend"):
 
 
 
+st.header("🔥 Top Trending Movies (Live from TMDB)")
+
+api_key = '9b12d347b6ae32fa5fe10efc7d58c7a3'
+url = f'https://api.themoviedb.org/3/trending/movie/day?api_key={api_key}'
+
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json().get('results', [])[:10]
+
+    for movie in data:
+        title = movie.get('title', 'No Title')
+        overview = movie.get('overview', 'No Overview Available')
+        rating = movie.get('vote_average', 'N/A')
+        poster_path = movie.get('poster_path')
+
+        st.subheader(title)
+        st.write(f"⭐ Rating: {rating}")
+        st.write(overview)
+
+        if poster_path:
+            poster_url = f"https://image.tmdb.org/t/p/w500{poster_path}"
+            st.image(poster_url, width=300)
+
+        st.markdown("---")
+else:
+    st.error("❌ Failed to fetch trending movies.")
+
