@@ -109,6 +109,7 @@ st.markdown("""
     🎬 Movie Recommender 🍿
 </div>
 """, unsafe_allow_html=True)
+
 left_col, right_col = st.columns([3, 1]) 
 with left_col:
     st.header("🔍 Search and Recommendations")
