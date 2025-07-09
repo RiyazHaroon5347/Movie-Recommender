@@ -157,7 +157,7 @@ with left_col:
 
 with right_col:
     st.header("🔥 Top Trending Movies")
-
+    API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
     def fetch_trending_movies():
         url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
         response = requests.get(url)
