@@ -166,21 +166,23 @@ with right_col:
     if response.status_code == 200:
         data = response.json().get('results', [])[:10]
 
-        col1, col2 = right_col.columns(2)
+        col1, col2 = st.columns(2)
         
-        for movie in data:
+        for i,movie in data:
             title = movie.get('title', 'No Title')
-            rating = movie.get('vote_average', 'N/A')
             poster_path = movie.get('poster_path')
-    
-            if i % 2 == 0:
-                with col1:
-                    st.image(poster_url, use_column_width=True)
-                    st.caption(title)
-            else:
-                with col2:
-                    st.image(poster_url, use_column_width=True)
-                    st.caption(title)
+            
+            if poster_path:
+                poster_url = f"https://image.tmdb.org/t/p/w200{poster_path}"
+                
+                if i % 2 == 0:
+                    with col1:
+                        st.image(poster_url, use_column_width=True)
+                        st.caption(title)
+                else:
+                    with col2:
+                        st.image(poster_url, use_column_width=True)
+                        st.caption(title)
             with col:
                 st.image(poster_url, use_column_width=True)
                 st.caption(title)
