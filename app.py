@@ -186,16 +186,10 @@ with right_col:
             if poster_path:
                 poster_url = f"https://image.tmdb.org/t/p/w200{poster_path}"
                 
-                if i % 2 == 0:
-                    with col1:
-                        st.image(poster_url, use_column_width=True)
-                        st.caption(title)
-                else:
-                    with col2:
-                        st.image(poster_url, use_column_width=True)
-                        st.caption(title)
-            with col:
-                st.image(poster_url, use_column_width=True)
-                st.caption(title)
+                col = col1 if i % 2 == 0 else col2
+                
+                with col:
+                    st.image(poster_url, use_column_width=True)
+                    st.caption(title)
     else:
         right_col.error("❌ Could not fetch trending movies.")
