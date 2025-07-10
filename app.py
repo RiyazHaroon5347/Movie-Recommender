@@ -89,50 +89,44 @@ import requests
 
 API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
-# Search for a movie by title to get its TMDB ID
-def search_tmdb_movie(title):
-    url = f"https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={title}"
-    response = requests.get(url)
-    results = response.json().get('results')
-    if results:
-        return results[0]['id'], results[0]['title']
-    return None, None
 
-# Get TMDB recommendations based on movie ID
-def get_tmdb_recommendations(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}/recommendations?api_key={API_KEY}"
-    response = requests.get(url)
-    results = response.json().get('results')
-    return results if results else []
+st.markdown("""
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+<style>
+.title-container {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 40px;
+    text-align: center;
+    color: white;
+    padding: 30px;
+    margin-top: 20px;
+    margin-bottom: 30px;
 
-# Get poster URL
-def get_poster_url(poster_path):
-    return f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
+    background: rgba(0, 0, 0, 0.3);           /* semi-transparent black */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* light transparent border */
+    border-radius: 20px;
+    backdrop-filter: blur(3px);               /* blur effect */
+    -webkit-backdrop-filter: blur(3px);       /* Safari support */
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* golden glow */
+}
+</style>
 
-# UI
-st.title("🎬MOVIE RIDER")
+<div class="title-container">
+    🎬 Movie Recommender 🍿
+</div>
+""", unsafe_allow_html=True)
 
-query = st.text_input("Search for any movie:")
+movie_list = new_df['title'].sort_values().tolist()
+selected_movie = st.selectbox("Choose a movie", movie_list)
 
-if query:
-    movie_id, movie_title = search_tmdb_movie(query)
-    if movie_id:
-        st.success(f"Showing recommendations for: **{movie_title}**")
-
-        recommendations = get_tmdb_recommendations(movie_id)
-
-        if recommendations:
-            cols = st.columns(3)
-            for i, movie in enumerate(recommendations[:6]):  # Limit to 10
-                with cols[i % 3]:
-                    poster_url = get_poster_url(movie.get('poster_path'))
-                    if poster_url:
-                        st.image(poster_url, use_container_width=True)
-                    st.caption(movie.get('title', 'No Title'))
-        else:
-            st.warning("No recommendations found.")
+if st.button("Recommend"):
+    recommendations = recommend(selected_movie)
+    if recommendations:
+        st.subheader("Recommended Movies:")
+        for i in recommendations:
+            st.write("✅", i)
     else:
-        st.error("Movie not found.")
+        st.warning("No recommendations found. Try another movie.")
 
 
 API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
