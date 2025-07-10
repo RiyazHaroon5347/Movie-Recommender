@@ -110,7 +110,7 @@ def get_poster_url(poster_path):
     return f"https://image.tmdb.org/t/p/w500{poster_path}" if poster_path else None
 
 # UI
-st.title("🎬 TMDB-Powered Movie Recommender")
+st.title("🎬MOVIE RIDER")
 
 query = st.text_input("Search for any movie:")
 
@@ -122,9 +122,9 @@ if query:
         recommendations = get_tmdb_recommendations(movie_id)
 
         if recommendations:
-            cols = st.columns(5)
-            for i, movie in enumerate(recommendations[:10]):  # Limit to 10
-                with cols[i % 5]:
+            cols = st.columns(3)
+            for i, movie in enumerate(recommendations[:6]):  # Limit to 10
+                with cols[i % 3]:
                     poster_url = get_poster_url(movie.get('poster_path'))
                     if poster_url:
                         st.image(poster_url, use_container_width=True)
@@ -149,7 +149,6 @@ if 'show_trending' not in st.session_state:
     st.session_state.show_trending = False
 
 # Main page layout
-st.title("🎬 Movie Recommender")
 
 if not st.session_state.show_trending:
     # Home Page
