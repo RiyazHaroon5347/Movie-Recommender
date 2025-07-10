@@ -52,6 +52,17 @@ def load_data():
     new_df = movies[['movie_id', 'title', 'tags']]
     new_df['tags'] = new_df['tags'].apply(lambda x: " ".join(x)).str.lower()
 
+     try:
+        extra1 = pd.read_csv('movies_metadata')[['movie_id', 'title', 'tags']]
+        extra2 = pd.read_csv('netflix_data')[['movie_id', 'title', 'tags']]
+        new_df = pd.concat([new_df, extra1, extra2], ignore_index=True)
+        new_df.drop_duplicates(subset='title', inplace=True)
+    except Exception as e:
+        print(f"⚠️ Error loading extra files: {e}")
+
+    # Save to CSV
+    new_df.to_csv("final_movies.csv", index=False)
+
     return new_df
 
 new_df = load_data()
