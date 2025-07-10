@@ -117,9 +117,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 movie_list = new_df['title'].sort_values().tolist()
+movie_list.insert(0, "--- Select a Movie ---")
+
 selected_movie = st.selectbox("Choose a movie", movie_list)
 
-if st.button("Recommend"):
+if selected_movie != "--- Select a Movie ---" and st.button("Recommend"):
     recommendations = recommend(selected_movie)
     if recommendations:
         st.subheader("Recommended Movies:")
