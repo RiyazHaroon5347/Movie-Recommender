@@ -1,57 +1,64 @@
+import requests
 import pandas as pd
-import ast
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
-# Load data
-movies = pd.read_csv('tmdb_5000_movies.csv')
-credits = pd.read_csv('tmdb_5000_credits.csv')
-movies = movies.merge(credits, on='title')
-movies = movies[['movie_id', 'title', 'overview', 'genres', 'keywords', 'cast', 'crew']]
-movies.dropna(inplace=True)
+API_KEY = 'YOUR_TMDB_API_KEY_HERE'
 
-# Helper functions
-def convert(obj):
-    return [i['name'] for i in ast.literal_eval(obj)]
+def fetch_popular_movies(page=1):
+    url = f"https://api.themoviedb.org/3/movie/popular?api_key={API_KEY}&language=en-US&page={page}"
+    response = requests.get(url)
+    return response.json()['results']
 
-def get_top_cast(obj):
-    return [i['name'] for i in ast.literal_eval(obj)[:3]]
+def fetch_credits(movie_id):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key={API_KEY}"
+    return requests.get(url).json()
 
-def get_director(obj):
-    return [i['name'] for i in ast.literal_eval(obj) if i['job'] == 'Director'][:1]
+def fetch_keywords(movie_id):
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}/keywords?api_key={API_KEY}"
+    return requests.get(url).json()
 
-# Apply transformations
-movies['genres'] = movies['genres'].apply(convert)
-movies['keywords'] = movies['keywords'].apply(convert)
-movies['cast'] = movies['cast'].apply(get_top_cast)
-movies['crew'] = movies['crew'].apply(get_director)
-movies['overview'] = movies['overview'].apply(lambda x: x.split())
-movies['tags'] = movies['overview'] + movies['genres'] + movies['keywords'] + movies['cast'] + movies['crew']
-new_df = movies[['movie_id', 'title', 'tags']]
-new_df['tags'] = new_df['tags'].apply(lambda x: " ".join(x)).str.lower()
+def build_movie_data(pages=1):
+    movies_list = []
+    credits_list = []
 
-# Vectorize
-cv = CountVectorizer(max_features=5000, stop_words='english')
-vectors = cv.fit_transform(new_df['tags']).toarray()
-similarity = cosine_similarity(vectors)
+    for page in range(1, pages + 1):
+        for movie in fetch_popular_movies(page):
+            movie_id = movie['id']
+            title = movie['title']
+            overview = movie.get('overview', '')
 
-# Recommendation function
-def recommend(movie):
-    movie = movie.lower()
-    if movie not in new_df['title'].str.lower().values:
-        print("Movie not found in database.")
-        return
-    index = new_df[new_df['title'].str.lower() == movie].index[0]
-    distances = similarity[index]
-    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
-    print(f"\nTop 5 movies similar to '{movie.title()}':")
-    for i in movie_list:
-        print(new_df.iloc[i[0]].title)
+            # Genres
+            genres = [{'id': g['id'], 'name': g['name']} for g in movie.get('genre_ids', [])]
 
+            # Credits
+            credit_data = fetch_credits(movie_id)
+            cast = credit_data.get('cast', [])
+            crew = credit_data.get('crew', [])
 
-if __name__ == "__main__":
-    while True:
-        movie_name = input("\nEnter a movie name (or 'exit' to quit): ")
-        if movie_name.lower() == 'exit':
-            break
-        recommend(movie_name)
+            # Keywords
+            keyword_data = fetch_keywords(movie_id)
+            keywords = keyword_data.get('keywords', [])
+
+            # Format
+            movie_row = {
+                'movie_id': movie_id,
+                'title': title,
+                'overview': overview,
+                'genres': str(genres),
+                'keywords': str(keywords),
+                'cast': str(cast),
+                'crew': str(crew)
+            }
+
+            movies_list.append(movie_row)
+            credits_list.append({
+                'movie_id': movie_id,
+                'title': title,
+                'cast': str(cast),
+                'crew': str(crew)
+            })
+
+    return pd.DataFrame(movies_list), pd.DataFrame(credits_list)
+
+movies_df, credits_df = build_movie_data(pages=2)  # 2 pages = 40 movies
+movies_df.to_csv("new_movies.csv", index=False)
+credits_df.to_csv("new_credits.csv", index=False)
