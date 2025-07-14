@@ -116,6 +116,8 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
+
 movie_list = new_df['title'].sort_values().tolist()
 movie_list.insert(0, "--- Select a Movie ---")
 
@@ -124,15 +126,17 @@ selected_movie = st.selectbox("Choose a movie", movie_list)
 if selected_movie != "--- Select a Movie ---" and st.button("Recommend"):
     recommendations = recommend(selected_movie)
     if recommendations:
-        st.subheader("Recommended Movies:")
-        for i in recommendations:
-            st.write("✅", i)
-            poster_path = movie.get('poster_path')
+        st.subheader("🎬 Recommended Movies:")
+        
+        cols = st.columns(5)  # 5 movies in a row
+        for i, movie_title in enumerate(recommendations):
+            with cols[i % 5]:  # wrap every 5 posters
+                poster_url = fetch_poster(movie_title, API_KEY)
+                st.image(poster_url, use_container_width=True)
+                st.caption(movie_title)
     else:
         st.warning("No recommendations found. Try another movie.")
 
-
-API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
 def fetch_trending_movies():
     url = f"https://api.themoviedb.org/3/trending/movie/week?api_key={API_KEY}"
