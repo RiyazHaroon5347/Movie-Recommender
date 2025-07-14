@@ -91,30 +91,31 @@ API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
 
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-<style>
-.title-container {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 40px;
-    text-align: center;
-    color: white;
-    padding: 30px;
-    margin-top: 20px;
-    margin-bottom: 30px;
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+    .title-container {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 40px;
+        text-align: center;
+        color: white;
+        padding: 30px;
+        margin-top: 20px;
+        margin-bottom: 30px;
 
-    background: rgba(0, 0, 0, 0.3);           /* semi-transparent black */
-    border: 2px solid rgba(255, 255, 255, 0.2); /* light transparent border */
-    border-radius: 20px;
-    backdrop-filter: blur(3px);               /* blur effect */
-    -webkit-backdrop-filter: blur(3px);       /* Safari support */
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* golden glow */
-}
-</style>
+        background: rgba(0, 0, 0, 0.3);           /* semi-transparent black */
+        border: 2px solid rgba(255, 255, 255, 0.2); /* light transparent border */
+        border-radius: 20px;
+        backdrop-filter: blur(3px);               /* blur effect */
+        -webkit-backdrop-filter: blur(3px);       /* Safari support */
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); /* golden glow */
+    }
+    </style>
 
-<div class="title-container">
-    🎬 Movie Recommender 🍿
-</div>
+    <div class="title-container">
+        🎬 Movie Recommender 🍿
+    </div>
 """, unsafe_allow_html=True)
+
 
 API_KEY = '9b12d347b6ae32fa5fe10efc7d58c7a3'
 
