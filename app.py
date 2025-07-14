@@ -153,7 +153,6 @@ if 'show_trending' not in st.session_state:
 
 if not st.session_state.show_trending:
     # Home Page
-    st.write("Welcome to the Movie Recommendation System!")
     st.write("Click the button below to view the latest trending movies.")
 
     if st.button("🔥 Show Trending Movies"):
