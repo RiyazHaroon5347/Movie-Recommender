@@ -128,9 +128,9 @@ if selected_movie != "--- Select a Movie ---" and st.button("Recommend"):
     if recommendations:
         st.subheader("🎬 Recommended Movies:")
         
-        cols = st.columns(5)  # 5 movies in a row
+        cols = st.columns(3)  # 5 movies in a row
         for i, movie_title in enumerate(recommendations):
-            with cols[i % 5]:  # wrap every 5 posters
+            with cols[i % 3]:  # wrap every 5 posters
                 poster_url = fetch_poster(movie_title, API_KEY)
                 st.image(poster_url, use_container_width=True)
                 st.caption(movie_title)
